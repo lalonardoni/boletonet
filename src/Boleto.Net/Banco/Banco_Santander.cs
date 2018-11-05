@@ -3,6 +3,7 @@ using System.Globalization;
 using System.Web.UI;
 using BoletoNet.Util;
 using System.Linq;
+using BoletoNet.Excecoes;
 
 [assembly: WebResource("BoletoNet.Imagens.033.jpg", "image/jpg")]
 namespace BoletoNet
@@ -576,7 +577,7 @@ namespace BoletoNet
                 _header += Utils.FitStringLength(" ", 40, 40, ' ', 0, true, true, false);
 
                 //Número da versão da remessa (opcional) ==> 392 - 394
-                _header += Utils.FitStringLength(" ", 3, 3, ' ', 0, true, true, false);
+                _header += Utils.FitStringLength("0", 3, 3, '0', 0, true, true, true);
 
                 //Número sequencial do registro no arquivo ==> 395 - 400
                 _header += Utils.FitStringLength("1", 6, 6, '0', 0, true, true, true);
@@ -725,7 +726,7 @@ namespace BoletoNet
                 _segmentoP += " ";
 
                 //Código de movimento remessa ==> 016 - 017
-                _segmentoP += boleto.Remessa.CodigoOcorrencia;
+                _segmentoP += ObterCodigoDaOcorrencia(boleto);
 
                 //Agência do Cedente ==> 018 –021
                 _segmentoP += Utils.FitStringLength(boleto.Cedente.ContaBancaria.Agencia, 4, 4, '0', 0, true, true, true);
@@ -918,7 +919,7 @@ namespace BoletoNet
                 _segmentoQ += " ";
 
                 //Código de movimento remessa ==> 016 - 017
-                _segmentoQ += boleto.Remessa.CodigoOcorrencia;
+                _segmentoQ += ObterCodigoDaOcorrencia(boleto);
 
                 if (boleto.Sacado.CPFCNPJ.Length <= 11)
                     //Tipo de inscrição do sacado ==> 018 - 018
@@ -1011,7 +1012,7 @@ namespace BoletoNet
                 _segmentoR += " ";
 
                 //Código de movimento ==> 016 - 017
-                _segmentoR += boleto.Remessa.CodigoOcorrencia;
+                _segmentoR += ObterCodigoDaOcorrencia(boleto);
 
                 if (boleto.OutrosDescontos > 0)
                 {
@@ -1120,7 +1121,7 @@ namespace BoletoNet
                 _segmentoS += " ";
 
                 //Código de movimento ==> 016 - 017
-                _segmentoS += boleto.Remessa.CodigoOcorrencia;
+                _segmentoS += ObterCodigoDaOcorrencia(boleto);
 
                 //Identificação da impressão ==> 018 - 018
                 _segmentoS += "2";
@@ -1151,7 +1152,7 @@ namespace BoletoNet
             }
             catch (Exception ex)
             {
-                throw new Exception("Erro durante a geração do SEGMENTO R DO DETALHE do arquivo de REMESSA.", ex);
+                throw new Exception("Erro durante a geração do SEGMENTO S DO DETALHE do arquivo de REMESSA.", ex);
             }
         }
 
@@ -1198,7 +1199,6 @@ namespace BoletoNet
                 {
                     case TipoArquivo.CNAB240:
                         throw new Exception("Mensagem Variavel nao existe para o tipo CNAB 240.");
-                        break;
                     case TipoArquivo.CNAB400:
                         _detalhe = GerarMensagemVariavelRemessaCNAB400(boleto, ref numeroRegistro, tipoArquivo);
                         break;
@@ -1226,7 +1226,7 @@ namespace BoletoNet
             {
                 base.GerarDetalheRemessa(boleto, numeroRegistro, tipoArquivo);
 
-                string controle_partic = new string(' ', 25);
+                //string controle_partic = new string(' ', 25);
                 string sacador_aval = new string(' ', 30);
                 string _detalhe;
 
@@ -1250,13 +1250,17 @@ namespace BoletoNet
 
                 //Conta cobrança cedente ==> 030 - 037                
                 if (boleto.Cedente.ContaBancaria.Conta.Length == 9 || (!String.IsNullOrEmpty(boleto.Cedente.ContaBancaria.DigitoConta) && boleto.Cedente.ContaBancaria.Conta.Length == 8))
-                    _detalhe += Utils.FitStringLength(boleto.Cedente.ContaBancaria.Conta.Substring(0, 7), 8, 8, '0', 0, true, true, true);
+                    _detalhe += Utils.FitStringLength(boleto.Cedente.ContaBancaria.Conta.Substring(0, 8), 8, 8, '0', 0, true, true, true); //alterado por diegodariolli - 15/03/2018 - estava cortando um digito
                 else
                     _detalhe += Utils.FitStringLength(boleto.Cedente.ContaBancaria.Conta, 8, 8, '0', 0, true, true, true);
                 //Bloco if-else adicionado por Jéferson (jefhtavares). Segundo o Banco o código de transmissão muda de acordo com o tamanho (length) da conta corrente
 
                 //Número de controle do participante, controle do cedente ==> 038 - 062
-                _detalhe += controle_partic;
+                var numeroControle = string.Empty;
+                if (!string.IsNullOrEmpty(boleto.NumeroControle))
+                    numeroControle = boleto.NumeroControle;
+
+                _detalhe += Utils.FitStringLength(numeroControle, 25, 25, ' ', 0, true, true, false); //alterado por diegodariolli - 15/03/2018 - estava passando vazio impossibilitando controle interno
 
                 //NossoNumero com DV, pegar os 8 primeiros dígitos, da direita para esquerda ==> 063 - 070
                 string nossoNumero = Utils.FormatCode(boleto.NossoNumero, 12) + Mod11Santander(Utils.FormatCode(boleto.NossoNumero, 12), 9);//13
@@ -1319,7 +1323,7 @@ namespace BoletoNet
                 //08 - Alteração do seu Número
                 //09 - Protestar
                 //18 - Sustar protesto
-                _detalhe += Utils.FitStringLength(boleto.Remessa.CodigoOcorrencia, 2, 2, '0', 0, true, true, true);
+                _detalhe += ObterCodigoDaOcorrencia(boleto);
 
                 //Nº do documento ==> 111 - 120
                 _detalhe += Utils.FitStringLength(boleto.NumeroDocumento, 10, 10, ' ', 0, true, true, false);
@@ -1334,14 +1338,14 @@ namespace BoletoNet
                 _detalhe += "033";
 
                 //Código da agência cobradora do Banco Santander informar somente se carteira for igual a 5, caso contrário, informar zeros. ==> 143 - 147
-                if (!String.IsNullOrEmpty(boleto.Cedente.ContaBancaria.DigitoAgencia) && boleto.Carteira == "101")
+                if (carteira == "5") //alterado por diegodariolli - 15/03/2018 - verificação já feita anteriormente
                 {
                     _detalhe += Utils.FitStringLength(boleto.Cedente.ContaBancaria.Agencia, 4, 4, '0', 0, true, true, true);
                     _detalhe += Utils.FitStringLength(boleto.Cedente.ContaBancaria.DigitoAgencia, 1, 1, '0', 0, true, true, true);
                 }
                 else
                 {
-                    _detalhe += Utils.FitStringLength("0" + boleto.Cedente.ContaBancaria.Agencia, 5, 5, '0', 0, true, true, true);
+                    _detalhe += Utils.FitStringLength("0", 5, 5, '0', 0, true, true, true); //alterado por diegodariolli - 15/03/2018
                 }
 
 
@@ -1405,7 +1409,13 @@ namespace BoletoNet
                 _detalhe += Utils.FitStringLength(boleto.JurosMora.ApenasNumeros(), 13, 13, '0', 0, true, true, true);
 
                 //Data limite para concessão de desconto ==> 174 - 179
-                _detalhe += boleto.DataVencimento.ToString("ddMMyy");
+                var dataLimiteConcessaoDesconto = "000000";
+                if (boleto.ValorDesconto > 0)
+                {
+                    dataLimiteConcessaoDesconto = boleto.DataVencimento.ToString("ddMMyy");
+                }
+
+                _detalhe += dataLimiteConcessaoDesconto;
 
                 //Valor de desconto a ser concedido ==> 180 - 192
                 _detalhe += Utils.FitStringLength(boleto.ValorDesconto.ApenasNumeros(), 13, 13, '0', 0, true, true, true);
@@ -1429,7 +1439,7 @@ namespace BoletoNet
                 _detalhe += Utils.FitStringLength(boleto.Sacado.Nome.TrimStart(' '), 40, 40, ' ', 0, true, true, false).ToUpper();
 
                 //Endereço do sacado ==> 275 - 314
-                _detalhe += Utils.FitStringLength(boleto.Sacado.Endereco.End.TrimStart(' '), 40, 40, ' ', 0, true, true, false).ToUpper();
+                _detalhe += Utils.FitStringLength(boleto.Sacado.Endereco.EndComNumeroEComplemento.TrimStart(' '), 40, 40, ' ', 0, true, true, false).ToUpper();
 
                 //Bairro do sacado (opcional) ==> 315 - 326
                 _detalhe += Utils.FitStringLength(boleto.Sacado.Endereco.Bairro.TrimStart(' '), 12, 12, ' ', 0, true, true, false).ToUpper();
@@ -1903,7 +1913,7 @@ namespace BoletoNet
             }
             catch (Exception ex)
             {
-                throw new Exception("Erro ao processar arquivo de RETORNO - SEGMENTO U.", ex);
+                throw new Exception("Erro ao processar arquivo de RETORNO - SEGMENTO T.", ex);
             }
 
 
@@ -1915,7 +1925,7 @@ namespace BoletoNet
             {
                 DetalheSegmentoURetornoCNAB240 detalhe = new DetalheSegmentoURetornoCNAB240(registro);
 
-                if (registro.Substring(13, 1) != "Y")
+                if (registro.Substring(13, 1) != "U")
                     throw new Exception("Registro inválido. O detalhe não possuí as características do segmento U.");
 
                 detalhe.CodigoOcorrenciaSacado = registro.Substring(15, 2);
@@ -1951,7 +1961,7 @@ namespace BoletoNet
             }
             catch (Exception ex)
             {
-                throw new Exception("Erro ao processar arquivo de RETORNO - SEGMENTO T.", ex);
+                throw new Exception("Erro ao processar arquivo de RETORNO - SEGMENTO U.", ex);
             }
 
 
@@ -1963,7 +1973,7 @@ namespace BoletoNet
             {
                 DetalheSegmentoYRetornoCNAB240 detalhe = new DetalheSegmentoYRetornoCNAB240(registro);
 
-                if (registro.Substring(13, 1) != "U")
+                if (registro.Substring(13, 1) != "Y")
                     throw new Exception("Registro inválido. O detalhe não possuí as características do segmento Y.");
 
                 detalhe.CodigoMovimento = Convert.ToInt32(registro.Substring(15, 2));
@@ -2002,5 +2012,17 @@ namespace BoletoNet
             return vRetorno;
         }
 
+        public override long ObterNossoNumeroSemConvenioOuDigitoVerificador(long convenio, string nossoNumero)
+        {
+            if (string.IsNullOrEmpty(nossoNumero) || nossoNumero.Length != 13)
+                throw new TamanhoNossoNumeroInvalidoException();
+
+            var nossoNumeroSemDV = nossoNumero.Substring(0, 12);
+
+            long numero;
+            if (long.TryParse(nossoNumeroSemDV, out numero))
+                return numero;
+            throw new NossoNumeroInvalidoException();
+        }
     }
 }

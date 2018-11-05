@@ -19,7 +19,7 @@ namespace BoletoNet {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "15.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     internal class Html {
@@ -111,10 +111,10 @@ namespace BoletoNet {
         ///   Looks up a localized string similar to &lt;table cellpadding=&quot;0&quot; cellspacing=&quot;0&quot;&gt;
         ///						&lt;tr&gt;
         ///								&lt;td valign=&quot;top&quot;&gt;
-        ///										&lt;table class=&quot;w150 mt23&quot;&gt;
-        ///												&lt;tr class=&quot;ct cpN BHead&quot;&gt;
-        ///														&lt;td class=&quot;ld&quot;&gt;
-        ///																Recibo do Pagador
+        ///										&lt;table class=&quot;150&quot;&gt;
+        ///												&lt;tr class=&quot;BHead&quot;&gt;
+        ///														&lt;td class=&quot;imgLogo Al&quot;&gt;
+        ///															&lt;img src=&quot;@URLIMAGEMLOGO&quot; /&gt;
         ///														&lt;/td&gt;
         ///												&lt;/tr&gt;
         ///										&lt;/table&gt;
@@ -125,8 +125,7 @@ namespace BoletoNet {
         ///														&lt;/td&gt;
         ///												&lt;/tr&gt;
         ///												&lt;tr class=&quot;cp h12 At rBb&quot;&gt;
-        ///														&lt;td&gt;
-        /// [rest of string was truncated]&quot;;.
+        ///														 [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string Carne {
             get {
@@ -391,11 +390,10 @@ namespace BoletoNet {
         /// <summary>
         ///   Looks up a localized string similar to &lt;table class=&quot;w666 ctN&quot;&gt;
         ///				&lt;tr&gt;
-        ///						&lt;td class=&quot;pL6  w409&quot;&gt;Sacador / Avalista&lt;/td&gt;
+        ///						&lt;td class=&quot;pL6  w409&quot;&gt;Sacador / Avalista: @AVALISTA&lt;/td&gt;
         ///						&lt;td class=&quot;w250 Ar&quot;&gt;Autenticação mecânica - &lt;b class=&quot;cpN&quot;&gt;Ficha de Compensação&lt;/b&gt;&lt;/td&gt;
         ///				&lt;/tr&gt;
-        ///				&lt;tr class=&quot;h13&quot;&gt;&lt;td colspan=&quot;3&quot; /&gt;&lt;/tr&gt;
-        ///		&lt;/table&gt;.
+        ///				&lt;/table&gt;.
         /// </summary>
         internal static string ReciboCedenteParte10 {
             get {
@@ -418,22 +416,31 @@ namespace BoletoNet {
         
         /// <summary>
         ///   Looks up a localized string similar to &lt;table class=&quot;ctN w666&quot;&gt;
-        ///				&lt;tr class=&quot;h13&quot;&gt;&lt;td /&gt;&lt;/tr&gt;
         ///				&lt;tr&gt;&lt;td class=&quot;Ar&quot;&gt;Corte na linha pontilhada&lt;/td&gt;&lt;/tr&gt;
         ///				&lt;tr&gt;&lt;td class=&quot;cut&quot; /&gt;&lt;/tr&gt;
-        ///		&lt;/table&gt;
-        ///		&lt;table class=&quot;ctN w666&quot;&gt;
-        ///				&lt;tr class=&quot;h13&quot;&gt;&lt;td /&gt;&lt;/tr&gt;
-        ///				&lt;tr class=&quot;h13&quot;&gt;&lt;td /&gt;&lt;/tr&gt;
-        ///				&lt;tr class=&quot;h13&quot;&gt;&lt;td /&gt;&lt;/tr&gt;
-        ///				&lt;tr class=&quot;h13&quot;&gt;&lt;td /&gt;&lt;/tr&gt;
-        ///				&lt;tr class=&quot;h13&quot;&gt;&lt;td /&gt;&lt;/tr&gt;
-        ///				&lt;tr class=&quot;h13&quot;&gt;&lt;td /&gt;&lt;/tr&gt;
         ///		&lt;/table&gt;.
         /// </summary>
         internal static string ReciboCedenteParte12 {
             get {
                 return ResourceManager.GetString("ReciboCedenteParte12", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;table class=&quot;w666&quot;&gt;
+        ///        &lt;tr class=&quot;ct h13&quot;&gt;
+        ///            &lt;td class=&quot;w472&quot;&gt;Beneficiário&lt;/td&gt;
+        ///            &lt;td class=&quot;w180&quot;&gt;Agência / Código Beneficiário&lt;/td&gt;
+        ///        &lt;/tr&gt;
+        ///        &lt;tr class=&quot;cp h12 rBb&quot;&gt;
+        ///            &lt;td&gt;@DADOSCEDENTE&lt;/td&gt;
+        ///            &lt;td class=&quot;Ar&quot;&gt;@AGENCIACONTA&lt;/td&gt;
+        ///        &lt;/tr&gt;
+        ///    &lt;/table&gt;.
+        /// </summary>
+        internal static string ReciboCedenteParte13 {
+            get {
+                return ResourceManager.GetString("ReciboCedenteParte13", resourceCulture);
             }
         }
         
@@ -459,7 +466,7 @@ namespace BoletoNet {
         ///   Looks up a localized string similar to &lt;table class=&quot;w666&quot;&gt;
         ///				&lt;tr class=&quot;ct h13&quot;&gt;
         ///						&lt;td class=&quot;w472&quot;&gt;Beneficiário&lt;/td&gt;
-        ///						&lt;td class=&quot;w180&quot;&gt;Agência / Código Beneficiário&lt;/td&gt;
+        ///						&lt;td class=&quot;w180&quot;&gt;Agência / Código do Beneficiário&lt;/td&gt;
         ///				&lt;/tr&gt;
         ///				&lt;tr class=&quot;cp h12 rBb&quot;&gt;
         ///						&lt;td&gt;@CEDENTE_BOLETO&lt;/td&gt;
@@ -507,12 +514,12 @@ namespace BoletoNet {
         ///						&lt;td class=&quot;w180&quot;&gt;(=) Valor documento&lt;/td&gt;
         ///				&lt;/tr&gt;
         ///				&lt;tr class=&quot;cp h12 rBb&quot;&gt;
-        ///						&lt;td&gt;&amp;nbsp;&lt;/td&gt;
+        ///						&lt;td&gt;@USODOBANCO&lt;/td&gt;
         ///						&lt;td class=&quot;Al&quot;&gt;@CARTEIRA&lt;/td&gt;
         ///						&lt;td class=&quot;Al&quot;&gt;@ESPECIE&lt;/td&gt;
         ///						&lt;td&gt;@QUANTIDADE&lt;/td&gt;
         ///						&lt;td&gt;@VALORDOCUMENTO&lt;/td&gt;
-        ///						&lt;td class=&quot;Ar&quot;&gt;@=VALO [rest of string was truncated]&quot;;.
+        ///						&lt;td class=&quot;Ar&quot;&gt;@ [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string ReciboCedenteParte5 {
             get {
@@ -531,8 +538,7 @@ namespace BoletoNet {
         ///								&lt;div class=&quot;t&quot;&gt;(-) Desconto / Abatimentos&lt;/div&gt;
         ///								&lt;div class=&quot;c BB&quot;&gt;@DESCONTOS&lt;/div&gt;
         ///								&lt;div class=&quot;t&quot;&gt;(-) Outras deduções&lt;/div&gt;
-        ///								&lt;div class=&quot;c BB&quot;&gt;@OUTRASDEDUCOES&lt;/div&gt;
-        /// [rest of string was truncated]&quot;;.
+        ///								&lt;div class=&quot;c BB&quot;&gt;@OUTRASDEDUCOES&lt;/div&gt;        /// [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string ReciboCedenteParte6 {
             get {
@@ -625,7 +631,7 @@ namespace BoletoNet {
         /// <summary>
         ///   Looks up a localized string similar to &lt;table class=&quot;w666&quot;&gt;
         ///				&lt;tr class=&quot;ct h13&quot;&gt;
-        ///						&lt;td class=&quot;w659&quot;&gt;Beneficiário Endereço / Sacador Avalista&lt;/td&gt;
+        ///						&lt;td class=&quot;w659&quot;&gt;Beneficiário Endereço / Sacador Avalista: @AVALISTA&lt;/td&gt; 
         ///				&lt;/tr&gt;
         ///				&lt;tr class=&quot;cp h12 rBb&quot;&gt;
         ///						&lt;td class=&quot;At&quot;&gt;@ENDERECOCEDENTE&lt;/td&gt;

@@ -13,7 +13,13 @@ namespace BoletoNet
         /// Exemplo: Rua, Av., Travessa...
         /// </remarks>
         /// </summary>        
-        public string Logradouro { get; set; }
+        public string Logradouro
+        {
+            get
+            {
+                return End;
+            }
+        }
 
         /// <summary>
         /// Define o endereço completo
@@ -94,5 +100,30 @@ namespace BoletoNet
         /// </remarks>
         /// </summary>
         public string Email { get; set; }
+
+        public string EndComNumero {
+            get {
+                if (!string.IsNullOrEmpty(End) && !string.IsNullOrEmpty(Numero))
+                    return string.Format("{0}, {1}", End.Trim(), Numero.Trim());
+
+                return End;
+            }
+        }
+
+        public string EndComNumeroEComplemento
+        {
+            get
+            {
+                var endComNumeroEComplemento = End;
+
+                if (!string.IsNullOrEmpty(Numero))
+                    endComNumeroEComplemento += " " + Numero;
+
+                if (!string.IsNullOrEmpty(Complemento))
+                    endComNumeroEComplemento += " " + Complemento;
+
+                return endComNumeroEComplemento;
+            }
+        }
     }
 }

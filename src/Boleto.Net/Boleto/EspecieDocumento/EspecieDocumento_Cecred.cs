@@ -16,6 +16,10 @@ namespace BoletoNet {
         }
         #endregion
 
+        public EspecieDocumento_Cecred()
+        {
+        }
+
         public EspecieDocumento_Cecred(string codigo) {
             try {
                 this.carregar(codigo);
@@ -36,6 +40,18 @@ namespace BoletoNet {
                 case "RC": return EnumEspecieDocumento_Cecred.Recibo;
                 case "DS": return EnumEspecieDocumento_Cecred.DuplicataServico;
                 default: return EnumEspecieDocumento_Cecred.DuplicataMercantil;
+            }
+        }
+
+        public override string getCodigoEspecieBySigla(string sigla)
+        {
+            switch (sigla)
+            {
+                case "DM": return "1";
+                case "NF": return "2";
+                case "RC": return "5";
+                case "DS": return "12";             
+                default: return "1";
             }
         }
 
@@ -83,5 +99,9 @@ namespace BoletoNet {
             return especiesDocumento;
         }
 
+        public override IEspecieDocumento DuplicataMercantil()
+        {
+            return new EspecieDocumento_Cecred(getCodigoEspecieByEnum(EnumEspecieDocumento_Cecred.DuplicataMercantil));
+        }
     }
 }

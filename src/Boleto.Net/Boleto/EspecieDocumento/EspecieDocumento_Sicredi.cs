@@ -87,7 +87,25 @@ namespace BoletoNet
                 default: return EnumEspecieDocumento_Sicredi.Outros;
             }
         }
-        
+
+        public override string getCodigoEspecieBySigla(string sigla)
+        {
+            switch (sigla)
+            {
+                case "DMI": return "A";
+                case "DR": return "B";
+                case "NP": return "C";
+                case "NPR": return "D";
+                case "NS": return "E";
+                case "RC": return "G";
+                case "LC": return "H";
+                case "ND": return "I";
+                case "DSI": return "J";
+                case "OS": return "K";
+                default: return "K";
+            }
+        }
+
         #region Metodos Privados
 
         private void carregar(string idCodigo)
@@ -169,6 +187,11 @@ namespace BoletoNet
                 especiesDocumento.Add(new EspecieDocumento_Sicredi(ed.getCodigoEspecieByEnum(item)));
 
             return especiesDocumento;
+        }
+
+        public override IEspecieDocumento DuplicataMercantil()
+        {
+            return new EspecieDocumento_Sicredi(getCodigoEspecieByEnum(EnumEspecieDocumento_Sicredi.DuplicataMercantilIndicacao));
         }
 
         #endregion
