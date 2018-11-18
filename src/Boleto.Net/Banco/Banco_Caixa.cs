@@ -586,7 +586,7 @@ namespace BoletoNet
 
         public override string GerarDetalheSegmentoRRemessa(Boleto boleto, int numeroRegistroDetalhe, TipoArquivo CNAB240)
         {
-            return GerarDetalheSegmentoRRemessaCNAB240(boleto, numeroRegistroDetalhe, CNAB240);
+            return GerarDetalheSegmentoRRemessaCNAB240SIGCB(boleto, numeroRegistroDetalhe, CNAB240);
         }
 
         public override string GerarTrailerLoteRemessa(int numeroRegistro, Boleto boletos)
